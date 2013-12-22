@@ -2,7 +2,7 @@ require "authstrategies/version"
 require "warden"
 require "rack-flash"
 require "sinatra/base"
-require "activerecord"
+require "active_record"
 require "authstrategies/models/User"
 require "authstrategies/helpers"
 
