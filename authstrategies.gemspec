@@ -26,4 +26,7 @@ Gem::Specification.new do |spec|
 	spec.add_runtime_dependency "activerecord"
 	spec.add_runtime_dependency "warden"
 	spec.add_runtime_dependency "bcrypt-ruby"
+	spec.add_runtime_dependency "rack"
+	spec.add_runtime_dependency "rack-flash3", '1.0.1', require: 'rack/flash'
+
 end
