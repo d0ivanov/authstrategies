@@ -6,7 +6,7 @@ require "active_record"
 require "authstrategies/session_serializer.rb"
 require "authstrategies/helpers.rb"
 require "authstrategies/password.rb"
-require "authstrategies/user.rb"
+require "authstrategies/models/user.rb"
 
 module Authstrategies
 	module Base
