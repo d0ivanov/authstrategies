@@ -3,11 +3,11 @@ require "warden"
 require "rack-flash"
 require "sinatra/base"
 require "active_record"
-require "lib/authstrategies/session_serializer"
-require "lib/authstrategies/helpers"
-require "lib/authstrategues/password"
-require "lib/authstrategies/user"
-require "lib/authstrategies/middleware"
+require "authstrategies/session_serializer.rb"
+require "authstrategies/helpers.rb"
+require "authstrategues/password.rb"
+require "authstrategies/user.rb"
+require "authstrategies/middleware.rb"
 
 module Authstrategies
 	module Base
