@@ -5,7 +5,7 @@ require "sinatra/base"
 require "active_record"
 require "authstrategies/session_serializer.rb"
 require "authstrategies/helpers.rb"
-require "authstrategues/password.rb"
+require "authstrategies/password.rb"
 require "authstrategies/user.rb"
 require "authstrategies/middleware.rb"
 
