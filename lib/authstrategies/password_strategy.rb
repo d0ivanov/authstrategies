@@ -1,3 +1,5 @@
+require 'warden'
+
 module Authstrategies
 	module Strategies
 

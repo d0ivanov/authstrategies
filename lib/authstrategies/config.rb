@@ -1,3 +1,5 @@
+require 'warden'
+
 module Config
 	app.use Warden::Manager do |manager|
 		manager.failure_app = Unauthenticated

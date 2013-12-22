@@ -1,3 +1,5 @@
+require 'warden'
+
 module Authstrategies
 	private
 		class Warden::SessionSerializer
