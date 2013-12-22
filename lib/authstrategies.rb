@@ -7,7 +7,6 @@ require "authstrategies/session_serializer.rb"
 require "authstrategies/helpers.rb"
 require "authstrategies/password.rb"
 require "authstrategies/user.rb"
-require "authstrategies/middleware.rb"
 
 module Authstrategies
 	module Base
@@ -68,3 +67,5 @@ module Authstrategies
 		end
 	end
 end
+
+require "authstrategies/middleware.rb"
