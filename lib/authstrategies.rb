@@ -3,8 +3,8 @@ require "warden"
 require "rack-flash"
 require "sinatra/base"
 require "active_record"
-require "authstrategies/models/User"
 require "authstrategies/helpers"
+require "authstrategies/models/User"
 
 module Authstrategies
 	private
