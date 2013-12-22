@@ -4,7 +4,7 @@ module Authstrategies
 			user.id
 		end
 
-		def deserialize
+		def deserialize id
 			User.find(id)
 		end
 	end
