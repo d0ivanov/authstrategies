@@ -1,7 +1,3 @@
-require_relative 'helpers'
-require_relative 'config'
-require_relative 'routes'
-
 module Authstrategies
 	private
 		module Base

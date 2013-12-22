@@ -1,6 +1,3 @@
-require 'warden'
-require_relative 'models/User'
-
 module Authstrategies
 	private
 		class Warden::SessionSerializer

@@ -1,5 +1,3 @@
-require_relative 'strategies/password'
-
 module Config
 	app.use Warden::Manager do |manager|
 		manager.failure_app = Unauthenticated

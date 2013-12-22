@@ -1,5 +1,3 @@
-require_relative 'models/User'
-
 module Authstrategies
 	private
 		module Routes
