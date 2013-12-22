@@ -3,6 +3,8 @@ require "warden"
 require "rack-flash"
 require "sinatra/base"
 require "active_record"
+require "authstrategies/helpers"
+require "authstrategies/user"
 
 module Authstrategies
 	private
@@ -39,7 +41,7 @@ module Authstrategies
 					manager.default_strategies :password
 				end
 
-				Warden::Strategies.add(:password, Strategies::PasswordStrategy)
+				Warden::Strategies.add(:password, PasswordStrategy)
 
 				app.get '/login/?' do
 					redirect '/' if authenticated?
@@ -93,6 +95,3 @@ module Authstrategies
 			register Base
 		end
 end
-
-require "authstrategies/helpers"
-require "authstrategies/user"
