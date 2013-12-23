@@ -1,4 +1,4 @@
-module AuthStrategies
+module Authstrategies
 	class RememberMeStrategy
 		def valid?
 			!!(env['authstrategies.remember']['token'])
