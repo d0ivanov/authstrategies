@@ -79,14 +79,14 @@ module Authstrategies
 			Warden::Manager.after_authentication do |user, auth, opts|
 				if auth.winning_strategy.is_a?(RememberMeStrategy) ||
 					(auth.winning_strategy.is_a?(PasswordStrategy) &&
-					 auth.params['remember_me'])
+					 auth.params['remember_me'] == 'on')
 					user.remember_me!  # new token
 					Rack::Session::Cookie.new(app,
 						:key => "authstrategies.remember",
 						:secret => BCrypt::Password.create(Time.now),
 						:expire_after => 7 * 24 * 3600
 					)
-					env['authstrategies.remember']['token'] = user.remember_token
+					auth.env['authstrategies.remember']['token'] = user.remember_token
 				end
 			end
 
