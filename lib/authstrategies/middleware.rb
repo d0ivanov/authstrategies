@@ -1,6 +1,6 @@
 module Authstrategies
 	class Middleware < Sinatra::Base
 		register Base
-		register Base::RememberMe
+		register RememberMe
 	end
 end

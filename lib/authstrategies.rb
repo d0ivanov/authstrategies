@@ -71,34 +71,33 @@ module Authstrategies
 				end
 			end
 		end
+	end
 
-		module RememberMe
-			def self.registered(app)
-				Warden::Strategies.add(:remember_me, RememberMeStrategy)
-				app.before do
-					env['warden'].authenticate!(:remember_me)
-				end
-				Warden::Manager.after_authentication do |user, auth, opts|
-					if auth.winning_strategy.is_a?(RememberMeStrategy) ||
-            (auth.winning_strategy.is_a?(PasswordStrategy) &&
-						 auth.params['remember_me'])
-            user.remember_me!  # new token
-						Rack::Session::Cookies.new(app,
-							:key => "authstrategies.remember",
-							:secret => Bcrypt::Password.create(Time.now),
-							:expire_after => 7 * 24 * 3600
-						)
-						env['authstrategies.remember']['token'] = user.remember_token
-          end
-				end
-
-				Warden::Manager.before_logout do |user, auth, opts|
-					user.forget_me!
-					env.delete('authstrategies.remember')
+	module RememberMe
+		def self.registered(app)
+			Warden::Strategies.add(:remember_me, RememberMeStrategy)
+			app.before do
+				env['warden'].authenticate!(:remember_me)
+			end
+			Warden::Manager.after_authentication do |user, auth, opts|
+				if auth.winning_strategy.is_a?(RememberMeStrategy) ||
+					(auth.winning_strategy.is_a?(PasswordStrategy) &&
+					 auth.params['remember_me'])
+					user.remember_me!  # new token
+					Rack::Session::Cookies.new(app,
+						:key => "authstrategies.remember",
+						:secret => Bcrypt::Password.create(Time.now),
+						:expire_after => 7 * 24 * 3600
+					)
+					env['authstrategies.remember']['token'] = user.remember_token
 				end
 			end
-		end
 
+			Warden::Manager.before_logout do |user, auth, opts|
+				user.forget_me!
+				env.delete('authstrategies.remember')
+			end
+		end
 	end
 end
 
