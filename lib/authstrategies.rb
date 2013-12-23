@@ -83,7 +83,7 @@ module Authstrategies
 					user.remember_me!  # new token
 					Rack::Session::Cookie.new(app,
 						:key => "authstrategies.remember",
-						:secret => Bcrypt::Password.create(Time.now),
+						:secret => BCrypt::Password.create(Time.now),
 						:expire_after => 7 * 24 * 3600
 					)
 					env['authstrategies.remember']['token'] = user.remember_token
