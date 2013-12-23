@@ -81,7 +81,7 @@ module Authstrategies
 					(auth.winning_strategy.is_a?(PasswordStrategy) &&
 					 auth.params['remember_me'])
 					user.remember_me!  # new token
-					Rack::Session::Cookies.new(app,
+					Rack::Session::Cookie.new(app,
 						:key => "authstrategies.remember",
 						:secret => Bcrypt::Password.create(Time.now),
 						:expire_after => 7 * 24 * 3600
