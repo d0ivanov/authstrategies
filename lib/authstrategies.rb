@@ -50,6 +50,9 @@ module Authstrategies
 
 			app.post '/unauthenticated' do
 				flash[:error] = "Invalid username or password!"
+				catch :warden do
+					redirect '/login'
+				end
 				redirect '/login'
 			end
 
