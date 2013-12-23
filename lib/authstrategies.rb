@@ -50,9 +50,6 @@ module Authstrategies
 
 			app.post '/unauthenticated' do
 				flash[:error] = "Invalid username or password!"
-				catch :warden do
-					redirect '/login'
-				end
 				redirect '/login'
 			end
 
@@ -79,9 +76,6 @@ module Authstrategies
 	module RememberMe
 		def self.registered(app)
 			Warden::Strategies.add(:remember_me, RememberMeStrategy)
-			app.before do
-				env['warden'].authenticate!(:remember_me)
-			end
 			Warden::Manager.after_authentication do |user, auth, opts|
 				if auth.winning_strategy.is_a?(RememberMeStrategy) ||
 					(auth.winning_strategy.is_a?(PasswordStrategy) &&
