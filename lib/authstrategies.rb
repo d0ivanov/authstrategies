@@ -13,10 +13,6 @@ require "authstrategies/models/user.rb"
 module Authstrategies
 	module Base
 		def self.registered(app)
-			app.use Rack::Session::Cookie, {
-				:secret => BCrypt::Password.create(Time.new.to_s),
-				:expire_after => 3600
-			}
 			app.helpers Helpers
 			app.use Warden::Manager do |manager|
 				manager.failure_app = app
@@ -81,19 +77,18 @@ module Authstrategies
 					(auth.winning_strategy.is_a?(PasswordStrategy) &&
 					 auth.params['remember_me'] == 'on')
 					user.remember_me!  # new token
-					cookie = Rack::Session::Cookie.new(app,
+					app.use Rack::Session::Cookie,{
 						:key => "authstrategies.remember",
 						:secret => BCrypt::Password.create(Time.now),
 						:expire_after => 7 * 24 * 3600
-					)
-					auth.env['authstrategies.remember'] = cookie
-					auth.env['authstrategies.remember']['token'] = user.remember_token
+					}
+					env["authstrategies.remember"]["token"] = user.remember_token
 				end
 			end
 
 			Warden::Manager.before_logout do |user, auth, opts|
 				user.forget_me!
-				env.delete('authstrategies.remember')
+				env.delete("authstrategies.remember")
 			end
 		end
 	end
