@@ -1,7 +1,7 @@
 module Authstrategies
 	class RememberMeStrategy < Warden::Strategies::Base
 		def valid?
-			!!(env['authstrategies.remember']['token'])
+			!!(env['authstrategies.remember'])
 		end
 
 		def authenticate!
