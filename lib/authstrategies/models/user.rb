@@ -13,7 +13,6 @@ class User < ActiveRecord::Base
 		too_short: "must be at least %{count}" }
 
 	before_save :encrypt_password
-	#before_save :set_confirm_token
 
 	def password
 		@password ||= Password.new(encrypted_password)
@@ -42,10 +41,6 @@ class User < ActiveRecord::Base
 	private
 		def encrypt_password
 			self.encrypted_password = Password.create(@password)
-		end
-
-		def set_confirm_token
-			self.confirm_token = new_token
 		end
 
 		def new_token

@@ -23,7 +23,6 @@ Gem::Specification.new do |spec|
 
 	spec.add_runtime_dependency "sinatra"
 	spec.add_runtime_dependency "sinatra-activerecord"
-	spec.add_runtime_dependency "activerecord"
 	spec.add_runtime_dependency "warden"
 	spec.add_runtime_dependency "bcrypt-ruby"
 	spec.add_runtime_dependency "rack"
