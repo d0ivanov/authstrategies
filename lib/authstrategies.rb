@@ -82,7 +82,7 @@ module Authstrategies
 						:secret => BCrypt::Password.create(Time.now),
 						:expire_after => 7 * 24 * 3600
 					}
-					env["authstrategies.remember"]["token"] = user.remember_token
+					auth.env["authstrategies.remember"]["token"] = user.remember_token
 				end
 			end
 
