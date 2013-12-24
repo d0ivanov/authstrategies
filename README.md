@@ -1,6 +1,6 @@
 # Authstrategies
 
-TODO: Write a gem description
+Warden implementation for Sinatra
 
 ## Installation
 
