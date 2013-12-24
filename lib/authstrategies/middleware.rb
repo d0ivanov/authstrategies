@@ -16,7 +16,7 @@ module Authstrategies
 						current_user.remember_me!
 						response.set_cookie("authstrategies",
 							:value => current_user.remember_token,
-							:expire => 7 * 24 * 3600
+							:expires => Time.now + 7 * 24 * 3600
 						)
 					end
 					flash[:notice] = "Logged in successfully!"
