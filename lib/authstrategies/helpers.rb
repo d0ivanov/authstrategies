@@ -1,7 +1,7 @@
 module Authstrategies
 	module Helpers
-		def authenticate!
-			env['warden'].authenticate!
+		def authenticate! strategy= :password
+			env['warden'].authenticate! strategy
 		end
 
 		def authenticated?
@@ -14,6 +14,18 @@ module Authstrategies
 
 		def logout
 			env['warden'].logout
+		end
+
+		def login_path
+			'/login'
+		end
+
+		def logout_path
+			'/logout'
+		end
+
+		def signup_path
+			'/signup'
 		end
 	end
 end

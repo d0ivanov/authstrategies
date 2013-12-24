@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.version       = Authstrategies::VERSION
   spec.authors       = ["Dobromir Ivanov"]
   spec.email         = ["dobromir0ivanov@gmail.com"]
-  spec.description   = %q{AuthStrategies is a Warden implementation for sinatra. For now it only implements a password strategy.}
+  spec.description   = %q{AuthStrategies is a Warden implementation for sinatra.}
   spec.summary       = %q{Warden implementation for Sinatra}
   spec.homepage      = ""
   spec.license       = "MIT"

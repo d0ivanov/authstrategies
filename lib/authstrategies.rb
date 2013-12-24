@@ -17,7 +17,7 @@ module Authstrategies
 
 			app.use Warden::Manager do |manager|
 				manager.failure_app = app
-				manager.default_strategies :password
+				manager.default_strategies :password, :remember_me
 			end
 
 			Warden::Manager.before_failure do |env,opts|
