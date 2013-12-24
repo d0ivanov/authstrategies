@@ -1,5 +1,6 @@
 require 'bcrypt'
 require 'active_record'
+require 'protected_attributes'
 
 class User < ActiveRecord::Base
 	include BCrypt
@@ -12,14 +13,15 @@ class User < ActiveRecord::Base
 		too_long: "%{count} is the maximum allowed!",
 		too_short: "must be at least %{count}" }
 
-	before_save :encrypt_password
+	attr_accessible :email, :password, :remember_me, :remember_me_token
 
 	def password
 		@password ||= Password.new(encrypted_password)
   end
 
 	def password= password
-		@password = password
+		@password = Password.create(password)
+		self.encrypted_password = @password
 	end
 
 	def authenticate request
@@ -31,20 +33,17 @@ class User < ActiveRecord::Base
 	end
 
 	def remember_me!
-		self.update_attributes(:remember_token => new_token)
+		self.update_attribute('remember_me', true)
+		self.update_attribute('remember_token', new_token)
 	end
 
   def forget_me!
-		self.update_attributes(:remember_token => nil)
+		self.update_attribute('remember_me', false)
+		self.update_attribute('remember_token', nil)
 	end
 
 	private
-		def encrypt_password
-			self.encrypted_password = Password.create(@password)
-		end
-
 		def new_token
 			Password.create(Time.new.to_s)
 		end
-
 end

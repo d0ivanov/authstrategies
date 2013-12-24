@@ -1,17 +1,15 @@
 module Authstrategies
 	class RememberMeStrategy < Warden::Strategies::Base
 		def valid?
-			!!(env['authstrategies.remember'])
+			!!(request.cookies["authstrategies"])
 		end
 
 		def authenticate!
-			user = User.find_by_remember_me_token(env['authstrategies.remember']['token'])
+			user = User.find_by_remember_token(request.cookies["authstrategies"])
 			if user && user.remember_me
 				success!(user)
-			else
-				env.delete('authstrategies.remember')
-				fail!('')
 			end
+			fail!('')
 		end
 	end
 end

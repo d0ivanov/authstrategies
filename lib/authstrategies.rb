@@ -14,84 +14,23 @@ module Authstrategies
 	module Base
 		def self.registered(app)
 			app.helpers Helpers
+
 			app.use Warden::Manager do |manager|
 				manager.failure_app = app
 				manager.default_strategies :password
 			end
 
+			Warden::Manager.before_failure do |env,opts|
+						env['REQUEST_METHOD'] = 'POST'
+			end
 			Warden::Strategies.add(:password, PasswordStrategy)
-
-			app.get '/login/?' do
-				redirect '/' if authenticated?
-				erb :login
-			end
-
-			app.post '/login' do
-				redirect '/' if authenticated?
-				authenticate!
-				if authenticated?
-					flash[:notice] = "Logged in successfully!"
-					redirect '/'
-				else
-					flash[:error] = env["warden"].message
-					redirect '/login'
-				end
-			end
-
-			app.get '/logout/?' do
-				logout
-				flash[:notice] = "Successfully logged out!"
-				redirect '/'
-			end
-
-			app.post '/unauthenticated' do
-				flash[:error] = "Invalid username or password!"
-				redirect '/login'
-			end
-
-			app.get '/signup/?' do
-				redirect '/' if authenticated?
-				erb :signup
-			end
-
-			app.post '/signup' do
-				redirect '/' if authenticated?
-				user = User.new(params)
-				if user.valid?
-					user.save
-					flash[:notice] = "Successfully signed up!"
-					redirect '/'
-				else
-					flash[:error] = user.errors.messages
-					redirect '/login'
-				end
-			end
 		end
 	end
 
 	module RememberMe
 		def self.registered(app)
 			Warden::Strategies.add(:remember_me, RememberMeStrategy)
-			Warden::Manager.after_authentication do |user, auth, opts|
-				if auth.winning_strategy.is_a?(RememberMeStrategy) ||
-					(auth.winning_strategy.is_a?(PasswordStrategy) &&
-					 auth.params['remember_me'] == 'on')
-					user.remember_me!  # new token
-					app.use Rack::Session::Cookie,{
-						:key => "authstrategies.remember",
-						:secret => BCrypt::Password.create(Time.now),
-						:expire_after => 7 * 24 * 3600
-					}
-					auth.env["authstrategies.remember"]["token"] = user.remember_token
-				end
-			end
-
-			Warden::Manager.before_logout do |user, auth, opts|
-				user.forget_me!
-				env.delete("authstrategies.remember")
-			end
 		end
 	end
 end
-
 require "authstrategies/middleware.rb"
