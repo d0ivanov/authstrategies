@@ -25,14 +25,14 @@ Authstrategies uses sinatra-activerecord as orm. There is currently no rake task
 				t.string :email,							:null => false, :defautl => ""
 				t.string :encrypted_password, :null => false, :default => ""
 
-				t.string remember_token
+				t.string  :remember_token
 				t.boolean :remember_me
 
 				t.timestamps
 			end
 
-			add_index :users, :email,			:unique => true
-			add_index :remember_token,		:unique => true
+			add_index :users, :email,			     :unique => true
+			add_index :users, :remember_token, :unique => true
 	  end
 
 

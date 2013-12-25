@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["dobromir0ivanov@gmail.com"]
   spec.description   = %q{AuthStrategies is a Warden implementation for sinatra.}
   spec.summary       = %q{Warden implementation for Sinatra}
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/d0ivanov/authstrategies"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
