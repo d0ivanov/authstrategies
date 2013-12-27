@@ -20,8 +20,8 @@ class User < ActiveRecord::Base
   end
 
 	def password= password
-		@password = Password.create(password)
-		self.encrypted_password = @password
+    @password = password
+		self.encrypted_password = Password.create(@password)
 	end
 
 	def authenticate request
