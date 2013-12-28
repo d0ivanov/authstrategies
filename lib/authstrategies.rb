@@ -9,9 +9,20 @@ require "authstrategies/helpers.rb"
 require "authstrategies/password.rb"
 require "authstrategies/remember_me.rb"
 require "authstrategies/models/user.rb"
+require "authstrategies/callback_manager"
 
 module Authstrategies
   module Manager
+    include CallbackManager
+
+    @@_after_login_path = '/'
+    @@_after_login_msg = 'Successfully logged in!'
+
+    @@_after_logout_path = '/'
+    @@_after_logout_msg = 'Successfully logged out!'
+
+    @@_after_signup_path = '/'
+    @@_after_signup_msg = 'Successfully signed up!'
 
     # This is called every time the user is set. The user is set:
     # => on each request when they are accessed for the first time via env['warden'].user
@@ -71,6 +82,14 @@ module Authstrategies
       self.register :after_logout, &block
     end
 
+    # This defines a path to redirect the user to
+    # after he logs out and a flash message to print
+    # path default is root path
+    # message default is 'Logged out successfully!'
+    def self.after_logout_path path, message
+      @@_after_logout_path, @@after_logout_msg = path, message
+    end
+
     # This is called each time after the user logs in
     # 3 parameters are passed to this callback
     # =>current_user - the user that hase just been set
@@ -78,6 +97,14 @@ module Authstrategies
     # =>response - the response data
     def self.after_login &block
       self.register :on_login, block
+    end
+
+    # This defines a path to redirect the user to
+    # after he logs in and a flash message to print
+    # path default is root path
+    # message default is 'Logged in successfully!'
+    def self.after_login_path path, message
+      @@_after_login_path, @@after_login_msg = path, message
     end
 
     # This is called after the user is saved into
@@ -92,24 +119,14 @@ module Authstrategies
       self.register :after_register, &block
     end
 
-    private
-      @@callbacks = {}
+    # This defines a path to redirect the user to
+    # after he signs up and a flash message to print
+    # path default is root path
+    # message default is 'Successfully signed up!
+    def self.after_signup_path path, message
+      @@_after_signup_path, @@after_signup_msg = path, message
+    end
 
-      def self.register hook, &block
-        if @@callbacks[hook].class == Array
-          @@callbacks[hook].push block
-        else
-          @@callbacks[hook] = [block]
-        end
-      end
-
-      def self.call hook, args = []
-        if @@callbacks.has_key? hook
-          @@callbacks[hook].each do |callback|
-            callback.call(args)
-          end
-        end
-      end
   end
 
 	module Base

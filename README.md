@@ -68,6 +68,31 @@ To logout the user class logout.
 login_path returns the login path as a string
 logout_path returns the logout path as a string
 signup_path returns the signup path as a string
+
+## Callbacks
+ after_set_user
+
+ This callback is courtesy of Warden::Manager.after_set_user.
+ For more information on it check warden callbacks.
+
+ after_authentication
+
+ This callback is courtesy of Warden::Manager.after_set_user.
+ For more information on it check warden callbacks.
+
+ before_login_failure
+
+ This callback is courtesy of Warden::Manager.after_set_user.
+ For more information on it check warden callbacks.
+
+ after_login_failure
+
+ This is called in the failure app when the login has failed.
+ Takes two arguments:
+  request - sinatra request object
+  response - sinatra response object
+
+ before_logout
 ## Contributing
 
 1. Fork it
