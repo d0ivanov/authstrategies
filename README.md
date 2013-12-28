@@ -70,29 +70,86 @@ logout_path returns the logout path as a string
 signup_path returns the signup path as a string
 
 ## Callbacks
- after_set_user
 
- This callback is courtesy of Warden::Manager.after_set_user.
- For more information on it check warden callbacks.
+    after_set_user
+This is called every time the user is set. The user is set:
+=> on each request when they are accessed for the first time via env['warden'].user
+=> when the user is initially authenticated
+=> when the user is set via the set_user method
+Courtesy of Warden, for more information check the warden callbacks wiki
 
- after_authentication
+    after_authentication
 
- This callback is courtesy of Warden::Manager.after_set_user.
- For more information on it check warden callbacks.
+Executed every time the user is authenticated
+(first time in each session).
+Courtesy of Warden, for more information check the warden callbacks wiki
 
- before_login_failure
+    before_login_failure
 
- This callback is courtesy of Warden::Manager.after_set_user.
- For more information on it check warden callbacks.
+This callback is run right before the failure application is called.
+Courtesy of Warden, for more information
+check the warden callbacks wiki
 
- after_login_failure
+    after_login_failure
 
- This is called in the failure app when the login has failed.
- Takes two arguments:
-  request - sinatra request object
-  response - sinatra response object
+This is called in the failure application
+Useful for redirecting the user after he logs in
+2 params are passed to this callback
+=>request - the request data
+=>response - the response data
 
- before_logout
+    before_logout
+
+This callback is run before each user is logged out.
+Courtesy of Warden, for more information
+check the warden callbacks wiki
+
+    after_logout
+
+This is called after the user is logged out.
+Useful for redirecting the user after logging out
+2 parameters are passed to this callback
+=>request - the request data
+=>response - the response data
+
+    after_logout_path
+
+This defines a path to redirect the user to
+after he logs out and a flash message to print
+path default is root path
+message default is 'Logged out successfully!'
+
+    after_login
+
+This is called each time after the user logs in
+3 parameters are passed to this callback
+=>current_user - the user that hase just been set
+=>request - the request data
+=>response - the response data
+
+    after_login_path
+
+This defines a path to redirect the user to
+after he logs in and a flash message to print
+path default is root path
+message default is 'Logged in successfully!'
+
+    after_signup
+
+This is called after the user is saved into
+the database
+3 parameters are passed to this callback
+=>user - the user that just signed up
+=>request - the request data
+=>response - the response data
+Also since the user is set to session via env['warden'].set_user
+after_set_user is also called after the user signs up
+
+    after_signup_path
+This defines a path to redirect the user to
+after he signs up and a flash message to print
+path default is root path
+message default is 'Successfully signed up!
 ## Contributing
 
 1. Fork it
