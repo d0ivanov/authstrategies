@@ -81,7 +81,7 @@ module Authstrategies
     # =>request - the request data
     # =>response - the response data
     def self.after_login_failure &block
-      self.register :on_login_failure, &block
+      self.register :after_login_failure, &block
     end
 
     #This callback is run before each user is logged out.
@@ -124,7 +124,7 @@ module Authstrategies
     # =>request - the request data
     # =>response - the response data
     def self.after_login &block
-      self.register :on_login, &block
+      self.register :after_login, &block
     end
 
     # This defines a path to redirect the user to
@@ -152,7 +152,7 @@ module Authstrategies
     # Also since the user is set to session via env['warden'].set_user
     # after_set_user is also called after the user signs up
     def self.after_signup &block
-      self.register :after_register, &block
+      self.register :after_signup, &block
     end
 
     # This defines a path to redirect the user to
