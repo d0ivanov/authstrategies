@@ -9,11 +9,11 @@ require "authstrategies/helpers.rb"
 require "authstrategies/password.rb"
 require "authstrategies/remember_me.rb"
 require "authstrategies/models/user.rb"
-require "authstrategies/callback_manager"
 
 module Authstrategies
   module Manager
-    include CallbackManager
+
+    @@callbacks = {}
 
     @@_after_login_path = '/'
     @@_after_login_msg = 'Successfully logged in!'
@@ -23,6 +23,26 @@ module Authstrategies
 
     @@_after_signup_path = '/'
     @@_after_signup_msg = 'Successfully signed up!'
+
+    def self.registered? hook
+      @@callbacks.has_key? hook
+    end
+
+    def self.register hook, &block
+      if @@callbacks[hook].class == Array
+        @@callbacks[hook].push block
+      else
+        @@callbacks[hook] = [block]
+      end
+    end
+
+    def self.call hook, args = []
+      if @@callbacks.has_key? hook
+        @@callbacks[hook].each do |callback|
+          callback.call(args)
+        end
+      end
+    end
 
     # This is called every time the user is set. The user is set:
     # => on each request when they are accessed for the first time via env['warden'].user
@@ -90,13 +110,21 @@ module Authstrategies
       @@_after_logout_path, @@after_logout_msg = path, message
     end
 
+    def self._after_logout_path
+      @@_after_logout_path
+    end
+
+    def self._after_logout_msg
+       @@_after_logout_msg
+    end
+
     # This is called each time after the user logs in
     # 3 parameters are passed to this callback
     # =>current_user - the user that hase just been set
     # =>request - the request data
     # =>response - the response data
     def self.after_login &block
-      self.register :on_login, block
+      self.register :on_login, &block
     end
 
     # This defines a path to redirect the user to
@@ -105,6 +133,14 @@ module Authstrategies
     # message default is 'Logged in successfully!'
     def self.after_login_path path, message
       @@_after_login_path, @@after_login_msg = path, message
+    end
+
+    def self._after_login_path
+      @@_after_login_path
+    end
+
+    def self._after_login_msg
+       @@after_login_msg
     end
 
     # This is called after the user is saved into
