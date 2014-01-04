@@ -1,5 +1,5 @@
 require 'bcrypt'
-require 'sinatra/activerecord'
+require 'active_record'
 require 'protected_attributes'
 
 class User < ActiveRecord::Base

@@ -29,7 +29,7 @@ module Authstrategies
     end
 
     def self.register hook, &block
-      if @@callbacks[hook].class == Array
+      if self.registered? hook
         @@callbacks[hook].push block
       else
         @@callbacks[hook] = [block]
@@ -37,7 +37,7 @@ module Authstrategies
     end
 
     def self.call hook, args = []
-      if @@callbacks.has_key? hook
+      if self.registered? hook
         @@callbacks[hook].each do |callback|
           callback.call(args)
         end
