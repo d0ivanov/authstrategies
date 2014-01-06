@@ -22,8 +22,8 @@ module Authstrategies
           )
         end
         Manager.call :after_login, [current_user, request, response]
-        flash[:notice] = Manager._after_login_msg
-        redirect Manager._after_login_path
+        flash[:notice] = Manager.config[:after_login_msg]
+        redirect Manager.config[:after_login_path]
       end
     end
 
@@ -39,8 +39,8 @@ module Authstrategies
         user.save
         env['warden'].set_user(user)
         Manager.call :after_signup, [user, request, response]
-        flash[:notice] = Manager._after_signup_msg
-        redirect Manager._after_signup_path
+        flash[:notice] = Manager.config[:after_signup_msg]
+        redirect Manager.config[:after_signup_path]
       else
         flash[:error] = user.errors.messages
         redirect '/signup'
@@ -53,8 +53,8 @@ module Authstrategies
         response.delete_cookie("authstrategies")
         logout
         Manager.call :after_logout, [request, response]
-        flash[:notice] = Manager._after_logout_msg
-        redirect Manager._after_logout_path
+        flash[:notice] = Manager.config[:after_logout_msg]
+        redirect Manager.config[:after_logout_path]
       end
       redirect '/'
     end
