@@ -64,17 +64,22 @@ in your code.
 
     authenticate!
 To authenticate a user call
+
     authenticated?
 To check if a user is authenticated
+
     current_user
 To get the currently logged in user
+
     logout
 To logout the user
 
     login_path
 returns the login path as a string
+
     logout_path
 returns the logout path as a string
+
     signup_path
 returns the signup path as a string
 
