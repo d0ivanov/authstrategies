@@ -19,7 +19,7 @@ Or install it yourself as:
 ## Usage
 
 Authstrategies uses sinatra-activerecord as orm. There is currently no rake task to generate a migration for the user model, but you can use the following: (courtesy of device)
-
+```ruby
     def up
       create_table :users do |t|
         t.string :email,              :null => false, :defautl => ""
@@ -34,29 +34,28 @@ Authstrategies uses sinatra-activerecord as orm. There is currently no rake task
       add_index :users, :email,          :unique => true
       add_index :users, :remember_token, :unique => true
     end
-
+```
 
 After that your application should be configurad similarly to the following:
-
+```ruby
     require 'authstrategies'
 
-		class YourApp < Sinatra::Application
-			use Rack::Session::Cookie, {
-				:secret => 'such secret many secure wow',
-				:expire_after => 3600
-			}
-			use Rack::Flash
-			use Authstrategies::Middleware
-		end
-
+    class YourApp < Sinatra::Application
+      use Rack::Session::Cookie, {
+        :secret => 'such secret many secure wow',
+        :expire_after => 3600
+      }
+      use Rack::Flash
+      use Authstrategies::Middleware
+    end
+```
 The expire after for Rack::Session::Cookie is optional, but I set it, because
 some modern browsers will not delete session cookies after the user closes his browser like you would normally expect. This may pose a security thread if your users log in from a public computer.
 
 If you want to use the helpers provided with authstrategies put:
 
-		require 'authstrategies/helpers'
-
-		helpers Authstrategies::Helpers
+    require 'authstrategies/helpers'
+    helpers Authstrategies::Helpers
 
 in your code.
 
@@ -96,18 +95,16 @@ Courtesy of Warden, for more information check the warden callbacks wiki
 
 Executed every time the user is authenticated
 (first time in each session).
-Courtesy of Warden, for more information check the warden callbacks wiki
+Courtesy of Warden, for more information check the warden callbacks wiki.
 
     before_login_failure
 
 This callback is run right before the failure application is called.
-Courtesy of Warden, for more information
-check the warden callbacks wiki
+Courtesy of Warden, for more information check the warden callbacks wiki.
 
     after_login_failure
 
-This is called in the failure application
-Useful for redirecting the user after he logs in
+This is called in the failure application.
 2 params are passed to this callback
   request - the request data
   response - the response data
@@ -115,13 +112,11 @@ Useful for redirecting the user after he logs in
     before_logout
 
 This callback is run before each user is logged out.
-Courtesy of Warden, for more information
-check the warden callbacks wiki
+Courtesy of Warden, for more information check the warden callbacks wiki.
 
     after_logout
 
 This is called after the user is logged out.
-Useful for redirecting the user after logging out
 2 parameters are passed to this callback
   request - the request data
   response - the response data
@@ -136,8 +131,7 @@ This is called each time after the user logs in
 
     after_signup
 
-This is called after the user is saved into
-the database
+This is called after the user is saved into the database.
 3 parameters are passed to this callback
   user - the user that just signed up
   request - the request data
@@ -148,7 +142,7 @@ after_set_user is also called after the user signs up
 ## Configuration
 
 You can cofigure authstrategies throug:
-
+```ruby
     Authstrategies::Manager.config do |config|
      config[:after_login_path] = '/' #sets a path to redirect the user after logging in
      config[:after_login_msg] = 'Successfully logged in!' #sets a message to give to the user after he logs in
@@ -159,7 +153,7 @@ You can cofigure authstrategies throug:
      config[:after_signup_path] = '/' #sets a path to redirect the user after he signs up
      config[:after_signup_msg] = 'Successfully signed up!' #sets a message to give to the user after he signs up
     end
-
+```
 ## Contributing
 
 1. Fork it
