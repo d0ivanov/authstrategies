@@ -20,20 +20,20 @@ Or install it yourself as:
 
 Authstrategies uses sinatra-activerecord as orm. There is currently no rake task to generate a migration for the user model, but you can use the following: (courtesy of device)
 
-	  def up
-			create_table :users do |t|
-				t.string :email,							:null => false, :defautl => ""
-				t.string :encrypted_password, :null => false, :default => ""
+    def up
+      create_table :users do |t|
+        t.string :email,              :null => false, :defautl => ""
+        t.string :encrypted_password, :null => false, :default => ""
 
-				t.string  :remember_token
-				t.boolean :remember_me
+        t.string  :remember_token
+        t.boolean :remember_me
 
-				t.timestamps
-			end
+        t.timestamps
+      end
 
-			add_index :users, :email,			     :unique => true
-			add_index :users, :remember_token, :unique => true
-	  end
+      add_index :users, :email,          :unique => true
+      add_index :users, :remember_token, :unique => true
+    end
 
 
 After that your application should be configurad similarly to the following:
@@ -60,22 +60,31 @@ If you want to use the helpers provided with authstrategies put:
 
 in your code.
 
-To authenticate a user call authenticate!
-To check if a user is authenticated call authenticated?
-To get the currently logged in user call current_user
-To logout the user class logout.
+## Helpers
 
-login_path returns the login path as a string
-logout_path returns the logout path as a string
-signup_path returns the signup path as a string
+    authenticate!
+To authenticate a user call
+    authenticated?
+To check if a user is authenticated
+    current_user
+To get the currently logged in user
+    logout
+To logout the user
+
+    login_path
+returns the login path as a string
+    logout_path
+returns the logout path as a string
+    signup_path
+returns the signup path as a string
 
 ## Callbacks
 
     after_set_user
 This is called every time the user is set. The user is set:
-=> on each request when they are accessed for the first time via env['warden'].user
-=> when the user is initially authenticated
-=> when the user is set via the set_user method
+  on each request when they are accessed for the first time via env['warden'].user
+  when the user is initially authenticated
+  when the user is set via the set_user method
 Courtesy of Warden, for more information check the warden callbacks wiki
 
     after_authentication
@@ -95,8 +104,8 @@ check the warden callbacks wiki
 This is called in the failure application
 Useful for redirecting the user after he logs in
 2 params are passed to this callback
-=>request - the request data
-=>response - the response data
+  request - the request data
+  response - the response data
 
     before_logout
 
@@ -109,47 +118,43 @@ check the warden callbacks wiki
 This is called after the user is logged out.
 Useful for redirecting the user after logging out
 2 parameters are passed to this callback
-=>request - the request data
-=>response - the response data
-
-    after_logout_path
-
-This defines a path to redirect the user to
-after he logs out and a flash message to print
-path default is root path
-message default is 'Logged out successfully!'
+  request - the request data
+  response - the response data
 
     after_login
 
 This is called each time after the user logs in
 3 parameters are passed to this callback
-=>current_user - the user that hase just been set
-=>request - the request data
-=>response - the response data
-
-    after_login_path
-
-This defines a path to redirect the user to
-after he logs in and a flash message to print
-path default is root path
-message default is 'Logged in successfully!'
+  current_user - the user that hase just been set
+  request - the request data
+  response - the response data
 
     after_signup
 
 This is called after the user is saved into
 the database
 3 parameters are passed to this callback
-=>user - the user that just signed up
-=>request - the request data
-=>response - the response data
+  user - the user that just signed up
+  request - the request data
+  response - the response data
 Also since the user is set to session via env['warden'].set_user
 after_set_user is also called after the user signs up
 
-    after_signup_path
-This defines a path to redirect the user to
-after he signs up and a flash message to print
-path default is root path
-message default is 'Successfully signed up!
+## Configuration
+
+You can cofigure authstrategies throug:
+
+    Authstrategies::Manager.config do |config|
+     config[:after_login_path] = '/' #sets a path to redirect the user after logging in
+     config[:after_login_msg] = 'Successfully logged in!' #sets a message to give to the user after he logs in
+
+     config[:after_logout_path] = '/' #sets a path to redirect the user after logging out
+     config[:after_logout_msg] = 'Successfully logged out!' #sets a message to give to the user after he logs out
+
+     config[:after_signup_path] = '/' #sets a path to redirect the user after he signs up
+     config[:after_signup_msg] = 'Successfully signed up!' #sets a message to give to the user after he signs up
+    end
+
 ## Contributing
 
 1. Fork it
