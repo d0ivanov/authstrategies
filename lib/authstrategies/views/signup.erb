@@ -1,8 +1,22 @@
 <%= flash[:error] %>
 <%= flash[:notice] %>
 <form action="signup" method="post">
-	<p>E-mail:<input type="text" name="email" /></p>
-	<p>Password:<input type="password" name="password" /></p>
-	<p>Confirm password:<input type="password" name="password_confirmation" /></p>
-	<input type="submit" value="Register!" />
+  <table border="0">
+    <tr>
+      <td>E-mail:</td>
+      <td><input type="email" name="email" required/></td>
+    </tr>
+    <tr>
+      <td>Password:</td>
+      <td><input type="password" name="password" required/></td>
+    </tr>
+    <tr>
+      <td>Confirm it:</td>
+      <td><input type="password" name="password_confirmation" /></td>
+    </tr>
+    <tr>
+      <td><input type="submit" value="Register!" /></td>
+    </tr>
+  </table>
 </form>
+Already have an account? <a href=<%= login_path %>>Login</a>

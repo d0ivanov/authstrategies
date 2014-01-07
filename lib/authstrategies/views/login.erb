@@ -1,8 +1,9 @@
 <%= flash[:error] %>
 <%= flash[:notice] %>
 <form action="login" method="post">
-	<p>Username:<input type="text" name="email" /></p>
-	<p>Password:<input type="password" name="password" /></p>
+	<p>Username:<input type="email" name="email" required/></p>
+	<p>Password:<input type="password" name="password" required/></p>
 	<p>Remember Me: <input type="checkbox" name="remember_me" /></p>
 	<p><input type="submit" name="Submit" /></p>
+  Don't have an account?<a href=<%= signup_path%>>Signup</a>
 </form>
