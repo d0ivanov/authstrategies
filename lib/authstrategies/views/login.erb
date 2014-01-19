@@ -3,7 +3,7 @@
 <form action="login" method="post">
   <p><%= I18n.t 'email' %>:<input type="email" name="email" required/></p>
   <p><%= I18n.t 'password' %>:<input type="password" name="password" required/></p>
-  <p><%= I18n.t 'remember_me' %>: <input type="checkbox" name="remember_me" /></p>
-  <p><input type="submit" name=<%= I18n.t 'submit' %> /></p>
+  <p><%= I18n.t 'remember_me' %> <input type="checkbox" name="remember_me" /></p>
+  <p><input type="submit" value=<%= I18n.t 'submit' %> /></p>
   <%= I18n.t 'not_registered' %><a href=<%= signup_path%>><%= I18n.t 'signup' %></a>
 </form>
