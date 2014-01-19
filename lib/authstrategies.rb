@@ -19,7 +19,7 @@ module Authstrategies
     @@callbacks = {}
 
     @@config = {
-      :default_locales => :en
+      :default_locales => :en,
 
       :after_login_path => '/',
       :after_logout_path => '/',
