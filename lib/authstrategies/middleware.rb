@@ -7,8 +7,10 @@ module Authstrategies
 
     include Manager
 
+    dir = File.dirname(__FILE__)+'/locales' if !Manager.config[:locales_dir]
+
     I18n::Backend::Simple.send(:include, I18n::Backend::Fallbacks)
-    I18n.load_path = Dir[File.join(File.dirname(__FILE__)+'/locales', '*.yml')]
+    I18n.load_path = Dir[File.join(dir, '*.yml')]
     I18n.backend.load_translations
     I18n.enforce_available_locales = true
     I18n.default_locale = Manager.config[:default_locales]
