@@ -21,10 +21,6 @@ module Authstrategies
     @@config = {
       :default_locales => :en,
 
-      #If nil locales are loaded from the gem's locale files
-      #If it is set the locales are loaded from that location
-      :locales_dir => nil,
-
       :after_login_path => '/',
       :after_logout_path => '/',
       :after_signup_path => '/',
