@@ -1,9 +1,12 @@
 require "authstrategies/version"
 require "warden"
 require "rack-flash"
+require "rack/contrib"
 require "sinatra/base"
 require "active_record"
 require "bcrypt"
+require "i18n"
+require "i18n/backend/fallbacks"
 require "authstrategies/session_serializer.rb"
 require "authstrategies/helpers.rb"
 require "authstrategies/password.rb"
@@ -16,14 +19,11 @@ module Authstrategies
     @@callbacks = {}
 
     @@config = {
+      :default_locales => :en
+
       :after_login_path => '/',
-      :after_login_msg => 'Successfully logged in!',
-
       :after_logout_path => '/',
-      :after_logout_msg => 'Successfully logged out!',
-
       :after_signup_path => '/',
-      :after_signup_msg => 'Successfully signed up!',
     }
 
     def self.registered? hook

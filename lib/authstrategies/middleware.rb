@@ -3,7 +3,15 @@ module Authstrategies
     register Base
     register RememberMe
 
+    use Rack::Locale
+
     include Manager
+
+    I18n::Backend::Simple.send(:include, I18n::Backend::Fallbacks)
+    I18n.load_path = Dir[File.join('locales', '*.yml')]
+    I18n.backend.load_translations
+    I18n.enforce_available_locales = true
+    I18n.default_locale = Manager.config[:default_locales]
 
     get '/login/?' do
       redirect '/' if authenticated?
@@ -22,7 +30,7 @@ module Authstrategies
           )
         end
         Manager.call :after_login, [current_user, request, response]
-        flash[:notice] = Manager.config[:after_login_msg]
+        flash[:notice] = I18n.t 'login_msg'
         redirect Manager.config[:after_login_path]
       end
     end
@@ -39,7 +47,7 @@ module Authstrategies
         user.save
         env['warden'].set_user(user)
         Manager.call :after_signup, [user, request, response]
-        flash[:notice] = Manager.config[:after_signup_msg]
+        flash[:notice] = I18n.t 'signup_msg'
         redirect Manager.config[:after_signup_path]
       else
         flash[:error] = user.errors.messages
@@ -53,7 +61,7 @@ module Authstrategies
         response.delete_cookie("authstrategies")
         logout
         Manager.call :after_logout, [request, response]
-        flash[:notice] = Manager.config[:after_logout_msg]
+        flash[:notice] = I18n.t 'logout_msg'
         redirect Manager.config[:after_logout_path]
       end
       redirect '/'

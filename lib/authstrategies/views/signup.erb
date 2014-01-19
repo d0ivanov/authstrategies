@@ -3,20 +3,20 @@
 <form action="signup" method="post">
   <table border="0">
     <tr>
-      <td>E-mail:</td>
+      <td><%= I18n.t 'email' %>:</td>
       <td><input type="email" name="email" required/></td>
     </tr>
     <tr>
-      <td>Password:</td>
+      <td><%= I18n.t 'password' %>:</td>
       <td><input type="password" name="password" required/></td>
     </tr>
     <tr>
-      <td>Confirm it:</td>
+      <td><%= I18n.t 'confirm' %>:</td>
       <td><input type="password" name="password_confirmation" /></td>
     </tr>
     <tr>
-      <td><input type="submit" value="Register!" /></td>
+      <td><input type="submit" value=<%= I18n.t 'register' %> /></td>
     </tr>
   </table>
 </form>
-Already have an account? <a href=<%= login_path %>>Login</a>
+<%= I18n.t 'already_registered' %> <a href=<%= login_path %>><%= I18n.t 'login' %></a>

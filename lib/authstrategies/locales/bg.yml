@@ -1,0 +1,13 @@
+bg:
+  login_msg: Успешен вход в системата!
+  logout_msg: Вие излязохте от системата!
+  signup_msg: Успешна регистрация!
+  email: E-mail
+  password: Парола
+  remember_me: Запомни ме!
+  submit: Изпращане
+  not_registered: Нямаш акаунт?
+  sign_up: Регистрация
+  confirm: Потвърждаване
+  register: Регистрация
+  login: Вход

@@ -1,0 +1,13 @@
+en:
+  login_msg: Successfully logged in!
+  logout_msg: Successgully logged out!
+  signup_msg: Successfully signed up!
+  email: E-mail
+  password: Password
+  remember_me: Remember me!
+  submit: Submit
+  not_registered: Don't have an account?
+  sign_up: Signup
+  confirm: Confirm
+  register: Register
+  login: Log in
