@@ -1,6 +1,6 @@
 require "authstrategies/version"
 require "warden"
-require "rack-flash"
+require "sinatra/flash"
 require "rack/contrib"
 require "sinatra/base"
 require "active_record"
