@@ -2,6 +2,7 @@ module Authstrategies
 	class Middleware < Sinatra::Base
     register Base
     register RememberMe
+    register Sinatra::Flash
 
     use Rack::Locale
 

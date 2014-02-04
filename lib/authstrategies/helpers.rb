@@ -1,7 +1,7 @@
 module Authstrategies
 	module Helpers
-		def authenticate! strategy= :password
-			env['warden'].authenticate! strategy
+		def authenticate!
+			env['warden'].authenticate!
 		end
 
 		def authenticated?
