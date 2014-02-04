@@ -26,7 +26,7 @@ Gem::Specification.new do |spec|
 	spec.add_runtime_dependency "protected_attributes"
 	spec.add_runtime_dependency "warden"
 	spec.add_runtime_dependency "bcrypt-ruby"
-	spec.add_runtime_dependency "sinatra-flash", '1.0.5'
+	spec.add_runtime_dependency "sinatra-flash"
 	spec.add_runtime_dependency "i18n"
 	spec.add_runtime_dependency "rack-contrib"
 
