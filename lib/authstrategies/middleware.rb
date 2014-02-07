@@ -52,7 +52,7 @@ module Authstrategies
         redirect Manager.config[:after_signup_path]
       else
         flash[:error] = user.errors.messages
-        redirect '/signup'
+        redirect back
       end
     end
 
@@ -71,7 +71,7 @@ module Authstrategies
     post '/unauthenticated' do
       Manager.call :after_login_failure, [request, response]
       flash[:error] = env["warden"].message
-      redirect '/login'
+      redirect '/login' if !Manager.registered? :after_login_failure
     end
 	end
 end
