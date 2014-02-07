@@ -8,9 +8,8 @@ module Authstrategies
 			user = User.find_by_email(request["email"])
 			if user && user.authenticate(request)
 				success!(user)
-			else
-				fail("Invalid username or password!")
-			end
+      end
+			fail("Invalid username or password!")
 		end
 	end
 end
