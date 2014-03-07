@@ -11,4 +11,10 @@ bg:
   confirm: Потвърждаване
   register: Регистрация
   login: Вход
-  en.activerecord.errors.models.user.attributes.email.taken: Мейлът е зает!
+  activerecord:
+    errors:
+      models:
+        user:
+          attributes:
+            email:
+              taken: Мейлът е зает!

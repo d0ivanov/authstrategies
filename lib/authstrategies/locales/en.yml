@@ -11,4 +11,10 @@ en:
   confirm: Confirm
   register: Register
   login: Log in
-  en.activerecord.errors.models.user.attributes.email.taken: Email already taken!
+  activerecord:
+    errors:
+      models:
+        user:
+          attributes:
+            email:
+              taken: Email already taken!
