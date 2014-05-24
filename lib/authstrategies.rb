@@ -22,6 +22,7 @@ module Authstrategies
       :default_locales => :en,
 
       :after_login_path => '/',
+      :after_login_failure_path => '/login',
       :after_logout_path => '/',
       :after_signup_path => '/',
     }
