@@ -71,7 +71,7 @@ module Authstrategies
     post '/unauthenticated' do
       Manager.call :after_login_failure, [request, response]
       flash[:error] = env["warden"].message
-      redirect '/login' if !Manager.registered? :after_login_failure
+      redirect Manager.config[:after_login_failure_path]
     end
 	end
 end
