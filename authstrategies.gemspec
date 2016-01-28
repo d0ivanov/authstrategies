@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Authstrategies::VERSION
   spec.authors       = ["Dobromir Ivanov"]
   spec.email         = ["dobromir0ivanov@gmail.com"]
-  spec.description   = %q{AuthStrategies is a Warden implementation for sinatra.}
-  spec.summary       = %q{Warden implementation for Sinatra}
+  spec.description   = %q{Warden implementation for Sinatra.}
+  spec.summary       = %q{Warden implementation for Sinatra.}
   spec.homepage      = "https://github.com/d0ivanov/authstrategies"
   spec.license       = "MIT"
 
@@ -21,13 +21,8 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency "rake"
 
-	spec.add_runtime_dependency "sinatra"
-	spec.add_runtime_dependency "activerecord"
-	spec.add_runtime_dependency "protected_attributes"
 	spec.add_runtime_dependency "warden"
 	spec.add_runtime_dependency "bcrypt-ruby"
-	spec.add_runtime_dependency "sinatra-flash"
 	spec.add_runtime_dependency "i18n"
-	spec.add_runtime_dependency "rack-contrib"
-
+  spec.add_runtime_dependency "sinatra"
 end
