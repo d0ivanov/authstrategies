@@ -1,5 +1,7 @@
 # Authstrategies
 
+[![Build Status](https://travis-ci.org/d0ivanov/authstrategies.svg?branch=master)](https://travis-ci.org/d0ivanov/authstrategies)
+
 Warden implementation for Sinatra
 
 ## Installation
