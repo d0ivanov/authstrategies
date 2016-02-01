@@ -2,7 +2,6 @@ require "strategy"
 
 describe "StrategyManager" do
     before :each do
-      @strategies = AuthStrategies::StrategyManager.new
       @strategy = Proc.new do
         def valid?
         end
@@ -10,21 +9,27 @@ describe "StrategyManager" do
         def authenticate!
         end
       end
+
+      @strategies = AuthStrategies::StrategyManager.new
+    end
+
+    def strategy(name)
+      @strategies.find(-> { [] }) {|key, strategy| key == name}.last
     end
 
   describe "#register" do
     it "registers a strategy that implements #valid? and #authenticate!" do
       @strategies.register(:test, &@strategy)
 
-      expect(@strategies.get(:test)).not_to be nil
-      expect(@strategies.get(:test)).to be_instance_of AuthStrategies::Strategy
+      expect(strategy(:test)).not_to be nil
+      expect(strategy(:test)).to be_instance_of AuthStrategies::Strategy
     end
 
     it "registered strategies respond to #valid? or #authenticate!" do
       @strategies.register(:test, &@strategy)
 
-      expect(@strategies.get(:test)).to respond_to "valid?"
-      expect(@strategies.get(:test)).to respond_to "authenticate!"
+      expect(strategy(:test)).to respond_to "valid?"
+      expect(strategy(:test)).to respond_to "authenticate!"
     end
 
     it "cannot register a strategy wihtout a name" do
@@ -52,8 +57,8 @@ describe "StrategyManager" do
         end
       end
 
-      expect(@strategies.get(:password).valid?).to be == "plain"
-      expect(@strategies.get(:password).authenticate!).to be == "plain"
+      expect(strategy(:password).valid?).to be == "plain"
+      expect(strategy(:password).authenticate!).to be == "plain"
     end
   end
 
@@ -79,11 +84,11 @@ describe "StrategyManager" do
         end
       end
 
-      expect(@strategies.get(:password).valid?).to be == "password"
-      expect(@strategies.get(:password).authenticate!).to be == "password"
+      expect(strategy(:password).valid?).to be == "password"
+      expect(strategy(:password).authenticate!).to be == "password"
 
-      expect(@strategies.get(:plain).valid?).to be == "plain"
-      expect(@strategies.get(:plain).authenticate!).to be == "plain"
+      expect(strategy(:plain).valid?).to be == "plain"
+      expect(strategy(:plain).authenticate!).to be == "plain"
     end
   end
 end

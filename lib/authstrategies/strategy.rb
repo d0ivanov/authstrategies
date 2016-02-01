@@ -1,13 +1,22 @@
 module AuthStrategies
   class Strategy
+    attr_accessor :params
+
     def initialize(&block)
       instance_eval(&block)
     end
   end
 
   class StrategyManager
-    def initialize
+    include Enumerable
+
+    def initialize(&block)
       @strategies = {}
+      instance_eval(&block) if block_given?
+    end
+
+    def each(&block)
+      @strategies.each(&block)
     end
 
     def register(name, &block)
@@ -24,23 +33,18 @@ module AuthStrategies
 
       @strategies[name] = strategy
     end
-
-    def get(name)
-      @strategies[name]
-    end
-
-    def strategies
-      @strategies
-    end
   end
 
   class Manager
     def initialize(app, &block)
       @app = app
-      @strategy_manager = StrategyManager.new
+      @strategy_manager = StrategyManager.new(&block)
     end
 
     def call(env)
+      params = Rack::Request.new(env).params
+      @strategy_manager.each { |name, strategy| strategy.params = params }
+
       env["authstrategies"] = @strategy_manager
       @app.call(env)
     end
