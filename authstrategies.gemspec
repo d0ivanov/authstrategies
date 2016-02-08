@@ -24,8 +24,11 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "guard-rspec"
   spec.add_development_dependency "rspec-instafail"
   spec.add_development_dependency "rack-test"
+  spec.add_development_dependency "sqlite3"
 
   spec.add_runtime_dependency "sinatra"
   spec.add_runtime_dependency "rack"
   spec.add_runtime_dependency "bcrypt"
+  spec.add_runtime_dependency "activerecord"
+  spec.add_runtime_dependency "sinatra-activerecord"
 end

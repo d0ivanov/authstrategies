@@ -2,7 +2,7 @@ require "sinatra/base"
 
 module Sinatra
   module AuthStrategies
-    module AuthHelper
+    module AuthHelpers
       def authstrategies
         env["authstrategies"]
       end
@@ -17,6 +17,4 @@ module Sinatra
       end
     end
   end
-
-  helpers AuthStrategies::AuthHelper
 end

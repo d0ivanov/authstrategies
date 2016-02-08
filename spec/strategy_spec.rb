@@ -61,34 +61,4 @@ describe "StrategyManager" do
       expect(strategy(:password).authenticate!).to be == "plain"
     end
   end
-
-  describe "#get" do
-    it "returns the correct strategy" do
-      @strategies.register(:password) do
-        def valid?
-          "password"
-        end
-
-        def authenticate!
-          "password"
-        end
-      end
-
-      @strategies.register(:plain) do
-        def valid?
-          "plain"
-        end
-
-        def authenticate!
-          "plain"
-        end
-      end
-
-      expect(strategy(:password).valid?).to be == "password"
-      expect(strategy(:password).authenticate!).to be == "password"
-
-      expect(strategy(:plain).valid?).to be == "plain"
-      expect(strategy(:plain).authenticate!).to be == "plain"
-    end
-  end
 end
