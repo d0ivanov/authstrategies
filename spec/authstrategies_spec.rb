@@ -1,4 +1,4 @@
-require "spec_helper.rb"
+require "spec_helper"
 
 describe "AuthStrategies" do
   before :all do
@@ -19,6 +19,7 @@ describe "AuthStrategies" do
 
     follow_redirect!
     expect(last_request.path_info).to eq "/authenticated"
+    expect(last_response.body).to eq "Success!"
   end
 
   it "Redirects non-existing users to /unauthenticated" do

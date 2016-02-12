@@ -4,8 +4,19 @@ require "authstrategies"
 
 class MockApp < Sinatra::Base
   register Sinatra::ActiveRecordExtension
+
   set :database, {adapter: "sqlite3", database: "test.sqlite3"}
 
-  use AuthStrategies::Manager
   register Sinatra::AuthStrategies
+
+  get "/authenticated" do
+    if !authenticated?
+      redirect "/unauthenticated"
+    end
+
+    "Success!"
+  end
+
+  get "/unauthenticated" do
+  end
 end
