@@ -7,7 +7,7 @@ module AuthStrategies
       case adapter
       when :active_record
         ActiveRecordAdapter.setup_tables
-        ActiveRecordAdapter::User
+        ActiveRecordAdapter::UserModel
       else
         raise "Unsupported adapter #{adapter}"
       end
@@ -15,21 +15,23 @@ module AuthStrategies
   end
 
   module ActiveRecordAdapter
-    class User < ActiveRecord::Base
-      include BCrypt
-      validates :email, :password_hash, presence: true
+    module UserModel
+      class User < ActiveRecord::Base
+        include BCrypt
+        validates :email, :password_hash, presence: true
 
-      def password
-        @password ||= Password.new(password_hash)
-      end
+        def password
+          @password ||= Password.new(password_hash)
+        end
 
-      def password=(password)
-        @password = Password.create(password)
-        self.password_hash = @password
-      end
+        def password=(password)
+          @password = Password.create(password)
+          self.password_hash = @password
+        end
 
-      def authenticate(raw_password)
-        password == raw_password
+        def authenticate(raw_password)
+          password == raw_password
+        end
       end
     end
 

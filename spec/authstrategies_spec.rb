@@ -16,16 +16,11 @@ describe "AuthStrategies" do
 
   it "Redirects existing users to /authenticated" do
     post "/login", {email: "test@abv.bg", password: "123456789"}
-
-    follow_redirect!
-    expect(last_request.path_info).to eq "/authenticated"
-    expect(last_response.body).to eq "Success!"
+    expect(last_response.status).to be 200
   end
 
   it "Redirects non-existing users to /unauthenticated" do
     post "/login", {email: "nont_existent@abv.bg", password: "123456789"}
-
-    follow_redirect!
-    expect(last_request.path_info).to eq "/unauthenticated"
+    expect(last_response.status).to be 401
   end
 end

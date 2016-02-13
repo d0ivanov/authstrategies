@@ -14,9 +14,9 @@ module AuthStrategies
     end
 
     def call(env)
-      request = Rack::Request.new(env)
-      @auth_strategies.each { |_, strategy| strategy.params = request.params }
+      @env = env
       env["authstrategies"] = @auth_strategies
+      @auth_strategies.each { |_, strategy| strategy.load(env) }
 
       @app.call(env)
     end

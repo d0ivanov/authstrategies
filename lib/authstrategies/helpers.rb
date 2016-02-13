@@ -23,17 +23,24 @@ module Sinatra
         env["authstrategies.session.manager"].delete names
       end
 
-      def authenticate!(name = :password)
-        strategy = strategy(name)
-        strategy.authenticate! unless strategy.nil?
+      def authenticate!
+        status, user = authstrategies.authenticate
+
+        if status == :success
+          session[:current_user] = user.id
+          redirect "/", 200
+        else
+          redirect "/", 401
+        end
       end
 
       def authenticated?
-        !cookies[:user_id].nil?
+        session[:current_user].nil?
       end
 
-      def strategy(name)
-        authstrategies.find(-> { [] }) {|key, strategy| key == name}.last
+      def logout
+        session[:current_user] = nil
+        cookies.delete["authstrategies.session".to_sym]
       end
     end
   end

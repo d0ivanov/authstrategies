@@ -6,44 +6,51 @@ require 'authstrategies/db_manager'
 module Sinatra
   module AuthStrategies
     def self.registered(app)
+      include ::AuthStrategies::DatabaseManager.new.get app.settings.db_adapter
 
+      app.use ::AuthStrategies::Session, app.settings.cookie_secret
       app.helpers Helpers
-      adapter = ::AuthStrategies::DatabaseManager.new.get
 
-      app.use ::AuthStrategies::Session, "1c77f04ac6d628419f21bfc7ebabce6969d13caa"
       app.use ::AuthStrategies::Manager do
         register :password do
           def valid?
-            params[:email] && params[:password]
+            @params["email"] && @params["password"]
           end
 
           def authenticate!
-            user = adapter.find_by_emal params[:email]
-
-            if !user.nil? && user.authenticate(params[:password])
-              session[:current_user] = user.id
+            user = User.find_by email: @params["email"]
+            if !user.nil? && user.authenticate(@params["password"])
+              return success! user
             end
-            redirect "/"
+            fail!
           end
         end
 
         register :plain_http do
           def valid?
+            @auth = Rack::Auth::Basic::Request.new(@env)
+            @auth.provided? && @auth.basic?
           end
 
           def authenticate!
+            email, password = @auth.credentials
+            user = User.find_by email: email
+
+            if !user.nil? && user.authenticate(password)
+              return success! user
+            end
+            fail!
           end
         end
       end
 
       app.post '/login/?' do
-        user = adapter.find_by_email(params[:email])
-        if !user.nil? && user.authenticate(params[:password])
-          set_cookie :user_id, user.id, "/", Time.now + 24 * 3600
-          redirect '/authenticated'
-        else
-          redirect '/unauthenticated'
-        end
+        authenticate!
+      end
+
+      app.post '/logout/?' do
+        logout
+        redirect "/"
       end
     end
   end
