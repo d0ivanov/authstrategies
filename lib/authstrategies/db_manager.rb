@@ -1,5 +1,6 @@
-require 'bcrypt'
-require 'sinatra/activerecord'
+require "bcrypt"
+require "sinatra/activerecord"
+require "data_mapper"
 
 module AuthStrategies
   class DatabaseManager
@@ -8,6 +9,9 @@ module AuthStrategies
       when :active_record
         ActiveRecordAdapter.setup_tables
         ActiveRecordAdapter::UserModel
+      when :data_mapper
+        DataMapperAdapter.setup_tables
+        DataMapperAdapter::UserModel
       else
         raise "Unsupported adapter #{adapter}"
       end
@@ -57,6 +61,37 @@ module AuthStrategies
       unless ActiveRecord::Base.connection.table_exists?('users')
         CreateUsers.up
       end
+    end
+  end
+
+  module DataMapperAdapter
+    module UserModel
+      class User
+        include DataMapper::Resource
+        include BCrypt
+
+        property :id, Serial
+        property :email, String, index: true
+        property :password_hash, String
+
+        def password
+          @password ||= Password.new(password_hash)
+        end
+
+        def password=(password)
+          @password = Password.create(password)
+          self.password_hash = @password
+        end
+
+        def authenticate(raw_password)
+          password == raw_password
+        end
+      end
+    end
+
+    def self.setup_tables
+      DataMapper.finalize
+      UserModel::User.auto_upgrade!
     end
   end
 end

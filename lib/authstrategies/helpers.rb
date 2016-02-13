@@ -25,7 +25,6 @@ module Sinatra
 
       def authenticate!
         status, user = authstrategies.authenticate
-
         if status == :success
           session[:current_user] = user.id
           redirect "/", 200
@@ -35,7 +34,11 @@ module Sinatra
       end
 
       def authenticated?
-        session[:current_user].nil?
+        !current_user.nil?
+      end
+
+      def current_user
+        session[:current_user]
       end
 
       def logout

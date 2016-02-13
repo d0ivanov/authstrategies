@@ -49,14 +49,10 @@ module AuthStrategies
       @strategies[name] = strategy
     end
 
-    def authenticate
-      @strategies.each do |name, strategy|
-        if strategy.valid?
-          return strategy.authenticate!
-        end
+    def remove(name)
+      if !name.nil? && !name.empty?
+        @strategies.delete(name)
       end
-
-      return :fail, "/"
     end
   end
 end

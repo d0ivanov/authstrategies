@@ -32,4 +32,5 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency "bcrypt"
   spec.add_runtime_dependency "activerecord"
   spec.add_runtime_dependency "sinatra-activerecord"
+  spec.add_runtime_dependency "data_mapper"
 end

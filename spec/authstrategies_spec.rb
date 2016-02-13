@@ -14,13 +14,38 @@ describe "AuthStrategies" do
     app.database.connection.execute("DELETE FROM users;")
   end
 
-  it "Redirects existing users to /authenticated" do
+  it "The response code afer an authentication of an existing user is 200" do
     post "/login", {email: "test@abv.bg", password: "123456789"}
     expect(last_response.status).to be 200
   end
 
-  it "Redirects non-existing users to /unauthenticated" do
+  it "The response code afet an authentication of non-existing user is 401" do
     post "/login", {email: "nont_existent@abv.bg", password: "123456789"}
     expect(last_response.status).to be 401
+  end
+
+  it "After authenticating users can view protected links" do
+    post "/login", {email: "test@abv.bg", password: "123456789"}
+    get "/authenticated"
+    expect(last_response.body).to eq "test@abv.bg"
+  end
+
+  it "Can logout" do
+    post "/login", {email: "test@abv.bg", password: "123456789"}
+    p last_response.body
+    get "/authenticated"
+    expect(last_response.body).to eq "test@abv.bg"
+
+    post "/logout"
+    get "/authenticated"
+
+    expect(last_response.body).to eq ""
+  end
+
+  it "Can not view protected links when not logged in" do
+    get "/authenticated"
+    follow_redirect!
+
+    expect(last_request.path_info).to eq "/unauthenticated"
   end
 end

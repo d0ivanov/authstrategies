@@ -8,6 +8,7 @@ module Sinatra
     def self.registered(app)
       include ::AuthStrategies::DatabaseManager.new.get app.settings.db_adapter
 
+
       app.use ::AuthStrategies::Session, app.settings.cookie_secret
       app.helpers Helpers
 
@@ -45,7 +46,11 @@ module Sinatra
       end
 
       app.post '/login/?' do
-        authenticate!
+        if authenticate!
+          redirect config[:after_login_path], 200
+        else
+          redirect config[:after_login_failure_path], 401
+        end
       end
 
       app.post '/logout/?' do
