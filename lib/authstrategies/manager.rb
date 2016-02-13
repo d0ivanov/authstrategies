@@ -9,10 +9,6 @@ module AuthStrategies
       instance_eval(&block) if block_given?
     end
 
-    def each(&block)
-      @auth_strategies.each(&block)
-    end
-
     def register(name, &block)
       @auth_strategies.register name, &block
     end
